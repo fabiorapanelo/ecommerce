@@ -12,4 +12,5 @@ public class EcommerceResourceConfig extends ResourceConfig  {
         packages("com.fabiorapanelo.customer");
         register(JacksonFeature.class);
     }
+	
 }
