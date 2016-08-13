@@ -1,27 +1,32 @@
-package com.fabiorapanelo.customer;
+package com.fabiorapanelo.order;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "E_CUSTOMER")
-@XmlRootElement(name = "customer")
-public class Customer {
+@Table(name = "E_ORDER")
+@XmlRootElement(name = "order")
+public class Order {
 
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(name = "CUSTOMER_ID")
+	@Column(name = "ORDER_ID")
 	private Long id;
 
-	@Column(name = "CUSTOMER_NAME")
-	private String name;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+	private Set<OrderItem> items = new HashSet<OrderItem>();
 
 	public Long getId() {
 		return id;
@@ -31,17 +36,12 @@ public class Customer {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Set<OrderItem> getItems() {
+		return items;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "#" + id + "-" + name;
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
 	}
 
 }

@@ -30,6 +30,10 @@
         <property name="hbm2ddl.auto">create</property>
 
         <mapping class="com.fabiorapanelo.customer.Customer"/>
+        <mapping class="com.fabiorapanelo.order.Order"/>
+        <mapping class="com.fabiorapanelo.order.OrderItem"/>
+        <mapping class="com.fabiorapanelo.catalog.Category"/>
+        <mapping class="com.fabiorapanelo.catalog.Product"/>
 
     </session-factory>
 

@@ -21,8 +21,9 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-package com.fabiorapanelo.customer;
+package com.fabiorapanelo;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -60,5 +61,13 @@ public class SessionFactorySingleton  {
 	
 	public SessionFactory getSessionFactory(){
 		return sessionFactory;
+	}
+	
+	public Session openSessionAndBeginTransaction(){
+		
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		return session;
 	}
 }

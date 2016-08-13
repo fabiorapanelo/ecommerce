@@ -9,7 +9,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 public class EcommerceResourceConfig extends ResourceConfig  {
 	
 	public EcommerceResourceConfig() {
-        packages("com.fabiorapanelo.customer");
+        packages("com.fabiorapanelo");
         register(JacksonFeature.class);
     }
 	

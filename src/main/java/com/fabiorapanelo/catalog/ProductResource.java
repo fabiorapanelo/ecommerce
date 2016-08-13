@@ -1,11 +1,10 @@
-package com.fabiorapanelo.customer;
+package com.fabiorapanelo.catalog;
 
 import java.net.URI;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,62 +21,56 @@ import org.hibernate.Session;
 
 import com.fabiorapanelo.SessionFactorySingleton;
 
-@Path("/customer")
-public class CustomerResource {
+@Path("/product")
+public class ProductResource {
 
-	@Context
-	private ServletContext context;
-
-	@Path("/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getCustomer(@PathParam("id") int id) {
+	public Response getProducts() {
 
-		
 		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
-		
-		TypedQuery<Customer> query = session.createQuery("from Customer where CUSTOMER_ID = :id ", Customer.class);
-		query.setParameter("id", id);
-		
-		Customer customer = null;
-		try{
-			customer = query.getSingleResult();
-			return Response.ok(customer).build();
-		}catch (NoResultException nre){
-			return Response.status(Status.NOT_FOUND).build();
-		}finally{
-			session.close();
-		}
-		
+
+		TypedQuery<Product> query = session.createQuery("from Product", Product.class);
+		List<Product> products = query.getResultList();
+
+		session.close();
+
+		return Response.ok(products.toArray()).build();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createCustomer(@Context UriInfo info, Customer customer) {
+	public Response createProduct(@Context UriInfo info, Product product) {
 
 		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
-		
-		session.save(customer);
+		session.save(product);
 		session.getTransaction().commit();
 		session.close();
 
-		URI absoluteURI = info.getBaseUriBuilder().path("/customer/" + customer.getId()).build();
+		URI absoluteURI = info.getBaseUriBuilder().path("/product/" + product.getId()).build();
 
 		return Response.created(absoluteURI).build();
 	}
 
+	@Path("/{id}")
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getCustomers() {
+	public Response getProduct(@PathParam("id") int id) {
 
 		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
 
-		TypedQuery<Customer> query = session.createQuery("from Customer", Customer.class);
-		List<Customer> customers = query.getResultList();
+		TypedQuery<Product> query = session.createQuery("from Product where PRODUCT_ID = :id ", Product.class);
+		query.setParameter("id", id);
 
-		session.close();
+		Product product = null;
+		try {
+			product = query.getSingleResult();
+			return Response.ok(product).build();
+		} catch (NoResultException nre) {
+			return Response.status(Status.NOT_FOUND).build();
+		} finally {
+			session.close();
+		}
 
-		return Response.ok(customers.toArray()).build();
 	}
-
 }
