@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,7 +33,7 @@ public class Category {
 	private String description;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-	private Set<Product> items = new HashSet<Product>();
+	private Set<Product> products = new HashSet<Product>();
 
 	public Long getId() {
 		return id;
@@ -50,12 +51,12 @@ public class Category {
 		this.name = name;
 	}
 
-	public Set<Product> getItems() {
-		return items;
+	public Set<Product> getProducts() {
+		return products;
 	}
 
-	public void setItems(Set<Product> items) {
-		this.items = items;
+	public void setItems(Set<Product> products) {
+		this.products = products;
 	}
 
 	public String getDescription() {

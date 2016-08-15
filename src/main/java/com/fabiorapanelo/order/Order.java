@@ -25,7 +25,7 @@ public class Order {
 	@Column(name = "ORDER_ID")
 	private Long id;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	private Set<OrderItem> items = new HashSet<OrderItem>();
 
 	public Long getId() {
