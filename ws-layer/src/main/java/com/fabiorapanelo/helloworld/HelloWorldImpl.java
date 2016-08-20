@@ -1,8 +1,8 @@
-package com.fabiorapanelo;
+package com.fabiorapanelo.helloworld;
 
 import javax.jws.WebService;
 
-@WebService(endpointInterface = "com.fabiorapanelo.HelloWorld")
+@WebService(endpointInterface = "com.fabiorapanelo.helloworld.HelloWorld")
 public class HelloWorldImpl implements HelloWorld {
 	
 	public String helloWorld(String name){

@@ -1,4 +1,4 @@
-package com.fabiorapanelo;
+package com.fabiorapanelo.helloworld;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

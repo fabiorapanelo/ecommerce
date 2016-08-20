@@ -1,4 +1,4 @@
-package com.fabiorapanelo;
+package com.fabiorapanelo.helloworld;
 
 import java.net.URL;
 import javax.xml.namespace.QName;
@@ -10,7 +10,7 @@ public class HelloWorldClient{
 
 		URL url = new URL("http://localhost:8080/ws/hello?wsdl");
 
-        QName qname = new QName("http://fabiorapanelo.com/", "HelloWorldImplService");
+        QName qname = new QName("http://helloworld.fabiorapanelo.com/", "HelloWorldImplService");
 
         Service service = Service.create(url, qname);
 
