@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://order.fabiorapanelo.com/" xmlns:tns="http://order.fabiorapanelo.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="checkStatus" type="tns:checkStatus"/>
+
+  <xs:element name="checkStatusResponse" type="tns:checkStatusResponse"/>
+
+  <xs:complexType name="checkStatus">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="checkStatusResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

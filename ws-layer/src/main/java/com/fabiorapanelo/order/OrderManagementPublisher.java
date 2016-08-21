@@ -5,7 +5,10 @@ import javax.xml.ws.Endpoint;
 public class OrderManagementPublisher {
 
 	public static void main(String[] args) {
-		Endpoint.publish("http://localhost:8080/ws-layer/OrderManagement", new OrderManagement());
+		String endpoint = "http://localhost:8080/ws-layer/OrderManagement";
+		Endpoint.publish(endpoint, new OrderManagement());
+		System.out.println("Order Managemenet Service has started: " + endpoint);
+		
 	}
 
 }

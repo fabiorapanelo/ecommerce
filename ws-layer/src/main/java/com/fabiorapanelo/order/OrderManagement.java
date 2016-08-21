@@ -1,12 +1,17 @@
 package com.fabiorapanelo.order;
 
+import javax.jws.HandlerChain;
+import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-@WebService(endpointInterface = "com.fabiorapanelo.order.IOrderManagement")
-public class OrderManagement implements IOrderManagement {
+@WebService
+@HandlerChain(file="handler-chain.xml")
+public class OrderManagement {
 
+	@WebMethod
 	public String checkStatus(Long orderId) {
-		return "Not implemented";
-	}	
+		System.out.println("OrderManagement.checkStatus: Order#" + orderId);
+		return "Created";
+	}
 
 }
