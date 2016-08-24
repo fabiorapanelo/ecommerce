@@ -3,17 +3,30 @@
 	<parent>
 		<groupId>com.fabiorapanelo</groupId>
    		<artifactId>ecommerce</artifactId>
-   		<version>1.0-SNAPSHOT</version>
+   		<version>${ecommerce.version}</version>
  	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ws-layer</artifactId>
+	<artifactId>webapp</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
-	<name>Ecommerce WS</name>
+	<version>${ecommerce.version}</version>
+	<name>webapp</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.fabiorapanelo</groupId>
+			<artifactId>webservices</artifactId>
+			<version>${ecommerce.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fabiorapanelo</groupId>
+			<artifactId>rest</artifactId>
+			<version>${ecommerce.version}</version>
+		</dependency>
+	</dependencies>
 
 	<build>
-		<finalName>ws-layer</finalName>
+		<finalName>webapp</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

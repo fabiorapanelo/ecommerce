@@ -4,11 +4,21 @@
 	<groupId>com.fabiorapanelo</groupId>
 	<artifactId>ecommerce</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
-	<name>Ecommerce</name>
-  <modules>
-    <module>rest-layer</module>
-    <module>ws-layer</module>
-    <module>ws-client</module>
-  </modules>
+	<version>${ecommerce.version}</version>
+	<name>ecommerce</name>
+ 
+ 	<modules>
+    	<module>rest</module>
+    	<module>webservices</module>
+    	<module>ws-client</module>
+    	<module>webapp</module>
+	</modules>
+
+	<properties>
+		<ecommerce.version>1.0-SNAPSHOT</ecommerce.version>
+		<jersey.version>2.23.1</jersey.version>
+		<servlet.version>3.1.0</servlet.version>
+		<hibernate.version>5.2.2.Final</hibernate.version>
+	</properties>
+
 </project>
