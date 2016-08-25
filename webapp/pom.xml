@@ -9,7 +9,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>webapp</artifactId>
 	<packaging>war</packaging>
-	<version>${ecommerce.version}</version>
 	<name>webapp</name>
 
 	<dependencies>
@@ -36,6 +35,13 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
+			<plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+        </plugin>
 		</plugins>
 	</build>
 </project>
