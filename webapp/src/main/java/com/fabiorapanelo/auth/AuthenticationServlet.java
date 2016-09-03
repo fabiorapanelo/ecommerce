@@ -30,7 +30,7 @@ public class AuthenticationServlet extends HttpServlet {
 						   .setClientId(AuthConsts.GOOGLE_CLIENT_ID)
 						   .setRedirectURI(AuthConsts.GOOGLE_AUTH_CALLBACK)
 						   .setResponseType("code")
-						   .setScope("https://www.googleapis.com/auth/userinfo.profile")
+						   .setScope("profile email")
 						   .buildQueryMessage();
 				
 				resp.sendRedirect(request.getLocationUri());
