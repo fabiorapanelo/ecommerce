@@ -35,69 +35,61 @@ public class AuthorizeResource {
         
         try {
         	
-            OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
+        	OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
             OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
             
-            String redirectUri = validateRequest(oauthRequest);
+            validateRequest(oauthRequest);
 
             OAuthASResponse.OAuthAuthorizationResponseBuilder builder = OAuthASResponse.authorizationResponse(request, HttpServletResponse.SC_FOUND);
 
             String responseType = oauthRequest.getParam(OAuth.OAUTH_RESPONSE_TYPE);
             
             if (responseType.equalsIgnoreCase(ResponseType.CODE.toString())) {
-                final String authorizationCode = oauthIssuerImpl.authorizationCode();
+                String authorizationCode = oauthIssuerImpl.authorizationCode();
                 //TODO: Save in database
                 builder.setCode(authorizationCode);
             }
             
             if (responseType.equalsIgnoreCase(ResponseType.TOKEN.toString())) {
-            	final String accessToken = oauthIssuerImpl.accessToken();
+            	String accessToken = oauthIssuerImpl.accessToken();
                 //TODO: Save in database
                 builder.setAccessToken(accessToken);
                 builder.setExpiresIn(3600l);
             }            
             
-            final OAuthResponse response = builder.location(redirectUri).buildQueryMessage();
+            OAuthResponse response = builder
+            		.location(oauthRequest.getRedirectURI())
+            		.buildQueryMessage();
             
-            //return Response.status(response.getResponseStatus()).location(new URI(response.getLocationUri())).build();
-            System.out.println("teste");
-            return Response.ok().build();
+            return Response.status(response.getResponseStatus()).location(new URI(response.getLocationUri())).build();
             
         } catch (OAuthProblemException e) {
         	
-			final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
-			
 			String redirectUri = e.getRedirectUri();
 			if (OAuthUtils.isEmpty(redirectUri)) {
-				throw new WebApplicationException(responseBuilder.entity(MISSING_REDIRECT_URI_PARAM).build());
+				throw new WebApplicationException(Response.status(HttpServletResponse.SC_BAD_REQUEST).entity(MISSING_REDIRECT_URI_PARAM).build());
 			}
 			
-			final OAuthResponse response = OAuthASResponse.
-					errorResponse(HttpServletResponse.SC_FOUND).
-					error(e).
-					location(redirectUri).
-					buildQueryMessage();
+			OAuthResponse response = OAuthASResponse
+					.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+					.error(e)
+					.location(redirectUri)
+					.buildQueryMessage();
 
-			return responseBuilder.location(new URI(response.getLocationUri())).build();
+			return Response.status(response.getResponseStatus()).location(new URI(response.getLocationUri())).build();
         	
         }
     }
-	private String validateRequest(OAuthAuthzRequest oauthRequest) {
-		
-		String clientId = oauthRequest.getClientId();
+	private void validateRequest(OAuthAuthzRequest oauthRequest) {
 		
 		//TODO: Check if clientId is valid
-		if(!clientId.equals("123")){
-		    final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
-		    throw new WebApplicationException(responseBuilder.entity(INVALID_CLIENT_ID).build());
+		if(!oauthRequest.getClientId().equals("123")){
+		    throw new WebApplicationException(Response.status(HttpServletResponse.SC_BAD_REQUEST).entity(INVALID_CLIENT_ID).build());
 		}
 		
-		String redirectUri = oauthRequest.getRedirectURI();
-		
-		if (OAuthUtils.isEmpty(redirectUri)) {
-			final Response.ResponseBuilder responseBuilder = Response.status(HttpServletResponse.SC_FOUND);
-			throw new WebApplicationException(responseBuilder.entity(MISSING_REDIRECT_URI_PARAM).build());
+		if (OAuthUtils.isEmpty(oauthRequest.getRedirectURI())) {
+			throw new WebApplicationException(Response.status(HttpServletResponse.SC_BAD_REQUEST).entity(MISSING_REDIRECT_URI_PARAM).build());
 		}
-		return redirectUri;
+		
 	}
 }
