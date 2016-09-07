@@ -12,14 +12,14 @@
 		<c:if test="${not empty param.failed}">
 			<div class="alert alert-danger" role="alert">Authentication failed.</div>
 		</c:if>
-		<form action="login" method="POST">
+		<form action="j_security_check" method="POST">
 			<div class="form-group">
-				<label for="username">Username</label>
-				<input type="text" class="form-control" name="username" placeholder="Username">
+				<label for="j_username">Username</label>
+				<input type="text" class="form-control" name="j_username" placeholder="Username">
 			</div>
 			<div class="form-group">
-				<label for="password">Password</label> <input
-					type="password" class="form-control" name="password" placeholder="Password">
+				<label for="j_password">Password</label> <input
+					type="password" class="form-control" name="j_password" placeholder="Password">
 			</div>
 			<button type="submit" class="btn btn-default">Submit</button>
 		</form>

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fabiorapanelo.utils.WebDispatcher;
 
-@WebServlet("/admin/home")
+@WebServlet("/admin/")
 public class HomeAdminServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

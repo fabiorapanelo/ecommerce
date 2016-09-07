@@ -49,7 +49,7 @@
 		</tbody>
 		</table>
 		
-		<a class="btn btn-default" href="home">Back</a>
+		<a class="btn btn-default" href=".">Back</a>
 		
 	</div>
 
