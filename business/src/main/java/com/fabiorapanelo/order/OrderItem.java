@@ -15,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fabiorapanelo.catalog.Product;
 
 @Entity
-@Table(name = "E_ORDER_ITEM")
+@Table(name = "TB_ORDER_ITEM")
 @XmlRootElement(name = "orderItem")
 public class OrderItem {
 

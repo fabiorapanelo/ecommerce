@@ -34,6 +34,7 @@
         <mapping class="com.fabiorapanelo.order.OrderItem"/>
         <mapping class="com.fabiorapanelo.catalog.Category"/>
         <mapping class="com.fabiorapanelo.catalog.Product"/>
+        <mapping class="com.fabiorapanelo.auth.User"/>
 
     </session-factory>
 

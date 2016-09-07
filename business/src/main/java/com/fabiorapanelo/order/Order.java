@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "E_ORDER")
+@Table(name = "TB_ORDER")
 @XmlRootElement(name = "order")
 public class Order {
 

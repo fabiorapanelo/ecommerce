@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "E_PRODUCT")
+@Table(name = "TB_PRODUCT")
 @XmlRootElement(name = "product")
 public class Product {
 

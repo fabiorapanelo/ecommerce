@@ -23,7 +23,7 @@ public class AuthenticationServlet extends HttpServlet {
 
 		HttpSession session = req.getSession();
 		
-		if(session.getAttribute("AUTH_TOKEN") == null){
+		if(session.getAttribute(AuthConsts.SESSION_KEY_USER) == null){
 			try {
 				
 				OAuthClientRequest request = OAuthClientRequest
@@ -40,7 +40,7 @@ public class AuthenticationServlet extends HttpServlet {
 				throw new ServletException(e);
 			}
 		} else {
-			resp.sendRedirect("/webapp/user");
+			resp.sendRedirect(AuthConsts.URL_AFTER_LOGIN);
 		}
 		
 		

@@ -12,6 +12,7 @@
 	<name>webapp</name>
 
 	<dependencies>
+		<!-- Internal Dependencies -->
 		<dependency>
 			<groupId>com.fabiorapanelo</groupId>
 			<artifactId>webservices</artifactId>
@@ -28,6 +29,13 @@
 			<version>${ecommerce.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.fabiorapanelo</groupId>
+			<artifactId>business</artifactId>
+			<version>${ecommerce.version}</version>
+		</dependency>
+
+		<!-- External Dependencies -->
+		<dependency>
 			<groupId>org.apache.oltu.oauth2</groupId>
 			<artifactId>org.apache.oltu.oauth2.client</artifactId>
 			<version>${oltu.version}</version>
@@ -41,6 +49,17 @@
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
 			<version>1.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
 		</dependency>
 	</dependencies>
 

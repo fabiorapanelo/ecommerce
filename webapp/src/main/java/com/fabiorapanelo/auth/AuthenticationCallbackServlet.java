@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthBearerClientRequest;
@@ -29,6 +30,8 @@ import org.apache.oltu.oauth2.common.message.types.GrantType;
 public class AuthenticationCallbackServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final String INVALID_EMAIL = "Invalid email.";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,19 +61,46 @@ public class AuthenticationCallbackServlet extends HttpServlet {
 			
 			JsonReader jsonReader = Json.createReader(new StringReader(resourceResponse.getBody()));
 			JsonObject userInformation = jsonReader.readObject();
+			
 			String email = userInformation.getString("email", "");
-			System.out.println("email: "+email);
+			if(StringUtils.isEmpty(email)){
+				throw OAuthProblemException.error(INVALID_EMAIL);
+			}
+			
+			User user = UserManagement.getUser(email);
+			if(user == null){
+				user = parseJsonToUser(userInformation);
+				UserManagement.createUser(user);
+			}else {
+				UserManagement.updateUser(user);
+			}			
 			
 			HttpSession session = req.getSession();
-			session.setAttribute("AUTH_CODE", authCode);
-			session.setAttribute("AUTH_TOKEN", accessToken);
-			session.setAttribute("EMAIL", email);
+			session.setAttribute(AuthConsts.SESSION_KEY_AUTH_CODE, authCode);
+			session.setAttribute(AuthConsts.SESSION_KEY_ACCESS_TOKEN, accessToken);
+			session.setAttribute(AuthConsts.SESSION_KEY_USER, user);
 			
-			resp.sendRedirect("/webapp/user");
+			resp.sendRedirect(AuthConsts.URL_AFTER_LOGIN);
 		
 		} catch (OAuthSystemException | OAuthProblemException e) {
 			throw new ServletException(e);
 		}		
+	}
+
+	private User parseJsonToUser(JsonObject userInformation) {
+		User user = new User();
+		String email = userInformation.getString("email", "");
+		user.setEmail(email);
+		
+		String name = userInformation.getString("name", "");
+		user.setName(name);
+		
+		String givenName = userInformation.getString("given_name", "");
+		user.setGivenName(givenName);
+		
+		String familyName = userInformation.getString("family_name", "");
+		user.setFamilyName(familyName);
+		return user;
 	}
 	
 	

@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "E_CATEGORY")
+@Table(name = "TB_CATEGORY")
 @XmlRootElement(name = "category")
 public class Category {
 

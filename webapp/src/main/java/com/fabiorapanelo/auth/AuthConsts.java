@@ -7,5 +7,13 @@ public interface AuthConsts {
 	String GOOGLE_AUTH_CALLBACK = "http://localhost:8080/webapp/auth/callback";
 	String GOOGLE_RESPONSE_TYPE = "code";
 	String GOOGLE_SCOPE = "profile email";
+	
+	
+	String SESSION_KEY_AUTH_CODE = "authCode";
+	String SESSION_KEY_ACCESS_TOKEN = "accessToken";
+	String SESSION_KEY_USER = "user";
+	
+	String URL_AFTER_LOGIN = "/webapp/";
+	
 
 }
