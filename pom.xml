@@ -13,6 +13,7 @@
     	<module>ws-client</module>
     	<module>webapp</module>
     	<module>auth-server</module>
+    	<module>business</module>
 	</modules>
 
 	<properties>

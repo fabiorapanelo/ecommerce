@@ -5,7 +5,7 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
-@ApplicationPath("/")
+@ApplicationPath("/rest")
 public class EcommerceResourceConfig extends ResourceConfig  {
 	
 	public EcommerceResourceConfig() {

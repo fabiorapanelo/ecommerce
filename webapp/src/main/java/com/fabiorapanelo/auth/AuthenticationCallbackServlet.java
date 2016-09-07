@@ -1,7 +1,11 @@
 package com.fabiorapanelo.auth;
 
 import java.io.IOException;
+import java.io.StringReader;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,10 +24,11 @@ import org.apache.oltu.oauth2.common.OAuthProviderType;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
-import org.json.JSONObject;
 
 @WebServlet("/auth/callback")
 public class AuthenticationCallbackServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,21 +48,24 @@ public class AuthenticationCallbackServlet extends HttpServlet {
 	                .buildBodyMessage();
 		
 			OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient()); 
-			final OAuthAccessTokenResponse oAuthResponse = oAuthClient.accessToken(request, "POST");
-			
+			OAuthAccessTokenResponse oAuthResponse = oAuthClient.accessToken(request, "POST");
 			
 			String accessToken = oAuthResponse.getAccessToken();
-			
-			HttpSession session = req.getSession();
-			session.setAttribute("AUTH_CODE", authCode);
-			session.setAttribute("AUTH_TOKEN", accessToken);
-			
 			
 			OAuthClientRequest bearerClientRequest = new OAuthBearerClientRequest("https://www.googleapis.com/oauth2/v1/userinfo?alt=json")
 	                .setAccessToken(accessToken).buildQueryMessage();
 			OAuthResourceResponse resourceResponse = oAuthClient.resource(bearerClientRequest, "GET", OAuthResourceResponse.class);
-			System.out.println(resourceResponse.getBody());
-	
+			
+			JsonReader jsonReader = Json.createReader(new StringReader(resourceResponse.getBody()));
+			JsonObject userInformation = jsonReader.readObject();
+			String email = userInformation.getString("email", "");
+			System.out.println("email: "+email);
+			
+			HttpSession session = req.getSession();
+			session.setAttribute("AUTH_CODE", authCode);
+			session.setAttribute("AUTH_TOKEN", accessToken);
+			session.setAttribute("EMAIL", email);
+			
 			resp.sendRedirect("/webapp/user");
 		
 		} catch (OAuthSystemException | OAuthProblemException e) {

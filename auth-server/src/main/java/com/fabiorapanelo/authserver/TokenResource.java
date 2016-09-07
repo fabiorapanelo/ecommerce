@@ -22,7 +22,6 @@ import org.apache.oltu.oauth2.common.message.OAuthResponse;
 @Path("/token")
 public class TokenResource {
 
-	private static final String MISSING_REDIRECT_URI_PARAM = "Missing redirect_uri param.";
 	private static final String INVALID_CLIENT_ID = "Invalid client_id.";
 	private static final String INVALID_AUTHORIZATION_CODE = "Invalid auth code.";
 	private static final String INVALID_CLIENT_SECRET = "Invalid client_secret.";
