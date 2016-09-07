@@ -10,3 +10,13 @@ So far I have used the following technologies:
 - Hibernate (I will migrate to JPA)
 
 
+Tasks:
+
+- [x] Integration with Google
+- [ ] Create home page
+- [ ] Authorization Server
+- [ ] Migrate to JPA
+- [ ] Admin Module
+- [ ] Expose services via JAX-RS and JAX-WS
+
+
