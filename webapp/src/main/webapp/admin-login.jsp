@@ -9,17 +9,17 @@
 <body>
 	<div class="container">
 
-		<c:if test="${not empty param.failed}">
+		<c:if test="${not empty authenticationFailed}">
 			<div class="alert alert-danger" role="alert">Authentication failed.</div>
 		</c:if>
-		<form action="j_security_check" method="POST">
+		<form name="loginform" action="" method="post">
 			<div class="form-group">
 				<label for="j_username">Username</label>
-				<input type="text" class="form-control" name="j_username" placeholder="Username">
+				<input type="text" class="form-control" name="username" placeholder="Username">
 			</div>
 			<div class="form-group">
 				<label for="j_password">Password</label> <input
-					type="password" class="form-control" name="j_password" placeholder="Password">
+					type="password" class="form-control" name="password" placeholder="Password">
 			</div>
 			<button type="submit" class="btn btn-default">Submit</button>
 		</form>
