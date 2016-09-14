@@ -11,5 +11,6 @@
 		<a class="btn btn-default btn-block" href="category">Category</a>
 		<a class="btn btn-default btn-block" href="product">Products</a>
 	</div>
+	<span>Admin name: ${adminName}</span>
 </body>
 </html>
