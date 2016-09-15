@@ -2,6 +2,7 @@ package com.fabiorapanelo.catalog;
 
 import java.net.URI;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,17 +18,20 @@ import javax.ws.rs.core.UriInfo;
 @Path("/category")
 public class CategoryResource {
 
+	@Inject
+	private CategoryManagement categoryManagement;
+	
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getCategories() {
-		return Response.ok(CategoryManagement.getCategories().toArray()).build();
+		return Response.ok(categoryManagement.getCategories().toArray()).build();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createCategory(@Context UriInfo info, Category category) {
 
-		CategoryManagement.createCategory(category);
+		categoryManagement.createCategory(category);
 		String location = "/category/" + category.getId();
 		URI absoluteURI = info.getBaseUriBuilder().path(location).build();
 
@@ -39,7 +43,7 @@ public class CategoryResource {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getCategory(@PathParam("id") int id) {
 
-		Category category = CategoryManagement.getCategory(id);
+		Category category = categoryManagement.getCategory(id);
 		
 		if(category != null)
 			return Response.ok(category).build();

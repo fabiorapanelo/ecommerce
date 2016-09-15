@@ -2,6 +2,8 @@ package com.fabiorapanelo.admin;
 
 import java.io.IOException;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,9 +19,12 @@ public class CategoryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject
+	private CategoryManagement categoryManagement;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("categories", CategoryManagement.getCategories());		
+		req.setAttribute("categories", categoryManagement.getCategories());		
 		WebDispatcher.dispatch(req, resp, "/WEB-INF/admin/category.jsp");
 	}
 
@@ -29,7 +34,7 @@ public class CategoryServlet extends HttpServlet {
 		Category category = new Category();
 		category.setName(req.getParameter("name"));
 		category.setDescription(req.getParameter("description"));
-		CategoryManagement.createCategory(category);
+		categoryManagement.createCategory(category);
 		
 		resp.sendRedirect("/webapp/admin/category");
 	}

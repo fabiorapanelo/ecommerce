@@ -2,6 +2,7 @@ package com.fabiorapanelo.catalog;
 
 import java.net.URI;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,17 +18,20 @@ import javax.ws.rs.core.UriInfo;
 @Path("/product")
 public class ProductResource {
 
+	@Inject
+	private ProductManagement productManagement;
+	
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getProducts() {
-		return Response.ok(ProductManagement.getProducts().toArray()).build();
+		return Response.ok(productManagement.getProducts().toArray()).build();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createProduct(@Context UriInfo info, Product product) {
 
-		ProductManagement.createProduct(product);
+		productManagement.createProduct(product);
 
 		String location = "/product/" + product.getId();
 		URI absoluteURI = info.getBaseUriBuilder().path(location).build();
@@ -40,7 +44,7 @@ public class ProductResource {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getProduct(@PathParam("id") int id) {
 
-		Product product = ProductManagement.getProduct(id);
+		Product product = productManagement.getProduct(id);
 		if(product != null)
 			Response.ok(product).build();
 		

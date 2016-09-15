@@ -3,6 +3,8 @@ package com.fabiorapanelo.auth;
 import java.io.IOException;
 import java.io.StringReader;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
@@ -33,6 +35,9 @@ public class AuthenticationCallbackServlet extends HttpServlet {
 	
 	private static final String INVALID_EMAIL = "Invalid email.";
 
+	@Inject
+	private UserManagement userManagement;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -67,12 +72,12 @@ public class AuthenticationCallbackServlet extends HttpServlet {
 				throw OAuthProblemException.error(INVALID_EMAIL);
 			}
 			
-			User user = UserManagement.getUser(email);
+			User user = userManagement.getUser(email);
 			if(user == null){
 				user = parseJsonToUser(userInformation);
-				UserManagement.createUser(user);
+				userManagement.createUser(user);
 			}else {
-				UserManagement.updateUser(user);
+				userManagement.updateUser(user);
 			}			
 			
 			HttpSession session = req.getSession();

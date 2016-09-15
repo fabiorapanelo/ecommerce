@@ -2,6 +2,7 @@ package com.fabiorapanelo.order;
 
 import java.net.URI;
 
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.servlet.ServletContext;
@@ -19,7 +20,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.Session;
 
-import com.fabiorapanelo.SessionFactorySingleton;
+import com.fabiorapanelo.HibernateSessionFactory;
 
 @Path("/order")
 public class OrderResource {
@@ -27,11 +28,14 @@ public class OrderResource {
 	@Context
 	private ServletContext context;
 	
+	@Inject
+	private HibernateSessionFactory sessionFactory; 
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createOrder(@Context UriInfo info, Order order) {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 		
 		session.save(order);
 		session.getTransaction().commit();
@@ -48,7 +52,7 @@ public class OrderResource {
 	public Response getOrder(@PathParam("id") int id) {
 
 		
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 		
 		TypedQuery<Order> query = session.createQuery("from Order where ORDER_ID = :id ", Order.class);
 		query.setParameter("id", id);
@@ -70,7 +74,7 @@ public class OrderResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addOrderItem(@PathParam("id") int id, OrderItem orderItem){
 		
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 		
 		TypedQuery<Order> query = session.createQuery("from Order where ORDER_ID = :id ", Order.class);
 		query.setParameter("id", id);

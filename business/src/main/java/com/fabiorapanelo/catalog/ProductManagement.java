@@ -2,18 +2,26 @@ package com.fabiorapanelo.catalog;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
-import com.fabiorapanelo.SessionFactorySingleton;
+import com.fabiorapanelo.HibernateSessionFactory;
 
+@Named
+@ApplicationScoped
 public class ProductManagement {
 
-	public static List<Product> getProducts() {
+	@Inject
+	private HibernateSessionFactory sessionFactory;
+	
+	public List<Product> getProducts() {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 
 		TypedQuery<Product> query = session.createQuery("from Product", Product.class);
 		List<Product> products = query.getResultList();
@@ -23,18 +31,18 @@ public class ProductManagement {
 		return products;
 	}
 
-	public static void createProduct(Product product) {
+	public void createProduct(Product product) {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 		session.save(product);
 		session.getTransaction().commit();
 		session.close();
 
 	}
 
-	public static Product getProduct(int id) {
+	public Product getProduct(int id) {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 
 		TypedQuery<Product> query = session.createQuery("from Product where PRODUCT_ID = :id ", Product.class);
 		query.setParameter("id", id);

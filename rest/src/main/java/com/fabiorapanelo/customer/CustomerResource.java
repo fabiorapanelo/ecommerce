@@ -3,6 +3,7 @@ package com.fabiorapanelo.customer;
 import java.net.URI;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.servlet.ServletContext;
@@ -20,13 +21,16 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.Session;
 
-import com.fabiorapanelo.SessionFactorySingleton;
+import com.fabiorapanelo.HibernateSessionFactory;
 
 @Path("/customer")
 public class CustomerResource {
 
 	@Context
 	private ServletContext context;
+	
+	@Inject
+	private HibernateSessionFactory sessionFactory;
 
 	@Path("/{id}")
 	@GET
@@ -34,7 +38,7 @@ public class CustomerResource {
 	public Response getCustomer(@PathParam("id") int id) {
 
 		
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 		
 		TypedQuery<Customer> query = session.createQuery("from Customer where CUSTOMER_ID = :id ", Customer.class);
 		query.setParameter("id", id);
@@ -55,7 +59,7 @@ public class CustomerResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createCustomer(@Context UriInfo info, Customer customer) {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 		
 		session.save(customer);
 		session.getTransaction().commit();
@@ -70,7 +74,7 @@ public class CustomerResource {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getCustomers() {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 
 		TypedQuery<Customer> query = session.createQuery("from Customer", Customer.class);
 		List<Customer> customers = query.getResultList();

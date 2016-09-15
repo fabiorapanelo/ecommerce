@@ -2,18 +2,24 @@ package com.fabiorapanelo.catalog;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
-import com.fabiorapanelo.SessionFactorySingleton;
+import com.fabiorapanelo.HibernateSessionFactory;
 
+@ApplicationScoped
 public class CategoryManagement {
 
-	public static List<Category> getCategories() {
+	@Inject
+	private HibernateSessionFactory sessionFactory;
+	
+	public List<Category> getCategories() {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 
 		TypedQuery<Category> query = session.createQuery("from Category", Category.class);
 		List<Category> categories = query.getResultList();
@@ -23,18 +29,18 @@ public class CategoryManagement {
 		return categories;
 	}
 
-	public static void createCategory(Category category) {
+	public void createCategory(Category category) {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 		session.save(category);
 		session.getTransaction().commit();
 		session.close();
 
 	}
 
-	public static Category getCategory(int id) {
+	public Category getCategory(int id) {
 
-		Session session = SessionFactorySingleton.getInstance().openSessionAndBeginTransaction();
+		Session session = sessionFactory.openSessionAndBeginTransaction();
 
 		TypedQuery<Category> query = session.createQuery("from Category where CATEGORY_ID = :id ", Category.class);
 		query.setParameter("id", id);
