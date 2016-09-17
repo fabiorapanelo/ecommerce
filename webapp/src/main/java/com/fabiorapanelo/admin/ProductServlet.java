@@ -11,31 +11,40 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fabiorapanelo.catalog.Category;
 import com.fabiorapanelo.catalog.CategoryManagement;
+import com.fabiorapanelo.catalog.Product;
+import com.fabiorapanelo.catalog.ProductManagement;
 import com.fabiorapanelo.utils.WebDispatcher;
 
-@WebServlet("/admin/category")
-public class CategoryServlet extends HttpServlet {
+@WebServlet("/admin/product")
+public class ProductServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private CategoryManagement categoryManagement;
+
+	@Inject
+	private ProductManagement productManagement;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("categories", categoryManagement.getCategories());		
-		WebDispatcher.dispatch(req, resp, "/WEB-INF/admin/category.jsp");
+		req.setAttribute("categories", categoryManagement.getCategories());
+		req.setAttribute("products", productManagement.getProducts());
+		WebDispatcher.dispatch(req, resp, "/WEB-INF/admin/product.jsp");
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		Category category = new Category();
-		category.setName(req.getParameter("name"));
-		category.setDescription(req.getParameter("description"));
-		categoryManagement.createCategory(category);
+		Product product = new Product();
+		product.setName(req.getParameter("name"));
 		
-		resp.sendRedirect("/webapp/admin/category");
+		Category category = categoryManagement.getCategory(Integer.parseInt(req.getParameter("category")));
+		product.setCategory(category);
+
+		productManagement.createProduct(product);
+		
+		resp.sendRedirect("/webapp/admin/product");
 	}
 	
 

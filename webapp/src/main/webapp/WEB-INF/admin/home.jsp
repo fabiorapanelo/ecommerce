@@ -8,9 +8,17 @@
 </head>
 <body>
 	<div class="container">
-		<a class="btn btn-default btn-block" href="category">Category</a>
-		<a class="btn btn-default btn-block" href="product">Products</a>
+	
+		<div class="row">
+  			<div class="col-md-3">
+  				<jsp:include page="/WEB-INF/admin/admin_menu.jsp">
+  					<jsp:param value="true" name="admin"/>
+  				</jsp:include>
+  			</div>
+  			<div class="col-md-9">
+				<span>Admin panel</span>
+			</div>
+		</div>
 	</div>
-	<span>Admin name: ${adminName}</span>
 </body>
 </html>
